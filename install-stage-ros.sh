@@ -24,6 +24,7 @@ catkin_make
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 cd ~/catkin_ws/src/
 git clone https://github.com/slremy/ros_web_service
+chmod 755 ros_web_service/src/*py
 cd ~/catkin_ws/
 catkin_make
 source ~/.bashrc
