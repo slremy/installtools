@@ -1,0 +1,136 @@
+<html>
+	<body>
+		<div id="content">
+			<h1>Accelerometer Control</h1>
+			<div id="text3"></div>
+			<!--ul>
+			 <li>acceleration x: <span id="accelerationX"></span>g</li>
+			 <li>acceleration y: <span id="accelerationY"></span>g</li>
+			 <li>acceleration z: <span id="accelerationZ"></span>g</li>
+			 <li>rotation alpha: <span id="rotationAlpha"></span>degree</li>
+			 <li>rotation beta: <span id="rotationBeta"></span>degree</li>
+			 <li>rotation gamma: <span id="rotationGamma"></span>degree</li>
+			 </ul-->
+			
+			<script type="text/javascript">
+				var lx=0, ly=0, lz=0;
+				var command;
+				var old_command = "nothing";
+				var isStopped = false;
+	      var robot_id=0;
+        var robot_cid=0;
+				var lspeed = ".15"
+				var aspeed = ".15"
+				var lx = "&lx="
+				var ly = "&ly="
+				var lz = "&lz="
+				var lxn = "&lx=-"
+				var lyn = "&ly=-"
+				var lzn = "&lz=-"
+				var ax = "&ax="
+				var ay = "&ay="
+				var az = "&az=-"
+				var axn = "&ax=-"
+				var ayn = "&ay=-"
+				var azn = "&az="
+				// Set the BaseURL to the URL of your server
+				var BaseURL = window.location.protocol + "//" + window.location.hostname
+				
+				// DisplayWidth & DisplayHeight specifies the displayed width & height of the image.
+				// You may change these numbers, the effect will be a stretched or a shrunk image
+				var DisplayWidth = "600";
+				var DisplayHeight = "500";
+				
+				// This is the path to the image generating file inside the camera itself
+				var File = ":8081/stream?topic=/robot_"+robot_cid+"/image?width=600?height=500?quality=100";
+				
+				// No changes required below this point
+				
+				var output = "";
+				{
+					// If not IE for Windows use the browser itself to display
+					theDate = new Date();
+					output = '<IMG SRC="';
+					output += BaseURL;
+					output += File;
+					output += '&dummy=' + theDate.getTime().toString(10);
+					output += '" HEIGHT="';
+					output += DisplayHeight;
+					output += '" WIDTH="';
+					output += DisplayWidth;
+					output += '" ALT="MJPEG non IE">';
+				}
+				document.getElementById("text3").innerHTML=output;
+				
+				if (window.DeviceMotionEvent != undefined) {
+					window.ondevicemotion = function(e) {
+						ax = event.accelerationIncludingGravity.x;
+						ay = event.accelerationIncludingGravity.y;
+						//document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
+						//document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
+						//document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
+						
+						
+						if ( e.rotationRate ) {
+							//document.getElementById("rotationAlpha").innerHTML = e.rotationRate.alpha;
+							//document.getElementById("rotationBeta").innerHTML = e.rotationRate.beta;
+							//document.getElementById("rotationGamma").innerHTML = e.rotationRate.gamma;
+						}		
+					}
+					
+					function httpGet(theUrl)
+					{
+						var xmlHttp = null;
+						xmlHttp = new XMLHttpRequest();
+						xmlHttp.open( "GET", BaseURL + ":8082/twist?id="+robot_id+"&"+theUrl, true );
+						xmlHttp.send( null );
+						return  
+					}
+					
+					setInterval( function() {
+								var landscapeOrientation = window.innerWidth/window.innerHeight > 1;
+								
+								/*if ( landscapeOrientation) {
+									var tmp=ax;
+									ax = ay;
+									ay = tmp;
+								}*/	
+								if (Math.abs(ax) > 6)
+									aspeed = ".8"
+								else
+									aspeed = ".15"
+
+								if (Math.abs(ay) > 5)
+									lspeed = ".5"
+								else
+									lspeed = ".15"
+
+								if (ax > 2){
+									command= az+aspeed;
+								}else if (ax < -2){
+									command= azn+aspeed;
+								}
+
+								if (ay > 2){
+									command=command + lx+lspeed;
+								}else if (ay < -2){
+									command=command + lxn+lspeed;
+								}
+								
+								if (command !== "" && old_command !== ""){
+									isStopped=false;
+									httpGet(command)
+								}
+
+								if (command === "" && old_command === "" && !isStopped){
+									httpGet("")
+									isStopped=true;
+								}
+
+								old_command = command;
+								command = ""
+								}, 25);
+				} 
+				
+				</script>
+</html>
