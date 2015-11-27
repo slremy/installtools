@@ -11,6 +11,7 @@ sudo apt-get -y install python-rosdistro python-rosdep python-rosinstall python-
 sudo apt-get -y install ros-indigo-rosbash
 sudo apt-get -y install ros-indigo-mjpeg-server
 sudo apt-get -y install ros-indigo-stage-ros
+sudo apt-get -y install ros-indigo-angles
 sudo rosdep init
 rosdep update
 echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
@@ -25,6 +26,13 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 cd ~/catkin_ws/src/
 git clone https://github.com/slremy/ros_web_service
 chmod 755 ros_web_service/src/*py
+cd ~/catkin_ws/
+catkin_make
+cd ~/catkin_ws/src/
+git clone https://github.com/ros-simulation/stage_ros.git 
+cd stage_ros
+wget https://raw.githubusercontent.com/slremy/installtools/master/setpose.patch
+patch -p0 < setpose.patch
 cd ~/catkin_ws/
 catkin_make
 source ~/.bashrc
