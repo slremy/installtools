@@ -1,7 +1,7 @@
-diff --git a/src/stageros.cpp b/src/stageros.cpp
+diff --git src/stageros.cpp src/stageros.cpp
 index fc3350e..1a5dafc 100644
---- a/src/stageros.cpp
-+++ b/src/stageros.cpp
+--- src/stageros.cpp
++++ src/stageros.cpp
 @@ -49,6 +49,9 @@
  #include <geometry_msgs/Twist.h>
  #include <rosgraph_msgs/Clock.h>
