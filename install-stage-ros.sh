@@ -29,10 +29,7 @@ chmod 755 ros_web_service/src/*py
 cd ~/catkin_ws/
 catkin_make
 cd ~/catkin_ws/src/
-git clone https://github.com/ros-simulation/stage_ros.git 
-cd stage_ros
-wget https://raw.githubusercontent.com/slremy/installtools/master/setpose.patch
-patch -p0 < setpose.patch
+git clone https://github.com/slremy/stage_ros.git 
 cd ~/catkin_ws/
 catkin_make
 source ~/.bashrc
