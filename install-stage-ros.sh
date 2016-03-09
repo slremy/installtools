@@ -37,6 +37,6 @@ source ~/.bashrc
 
 sudo apt-get -y install python-webpy
 
-screen
-Xvfb :1 -screen 0 1024x768x24 2>&1 >/dev/null &
+#screen
+#Xvfb :1 -screen 0 1024x768x24 2>&1 >/dev/null &
 
