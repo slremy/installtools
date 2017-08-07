@@ -7,7 +7,7 @@ sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C
 sudo apt-get -y update
 sudo apt-get -y install xvfb x11-apps screen
 sudo apt-get -y install gdb
-sudo apt-get -y install python-rosinstall
+sudo apt-get -y install python-rosinstall python-pip
 sudo apt-get -y install ros-lunar-ros-base
 sudo apt-get -y install ros-lunar-stage-ros
 #sudo apt-get -y install ros-lunar-angles
